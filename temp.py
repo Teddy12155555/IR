@@ -155,7 +155,7 @@ if __name__ == "__main__":
                     docVec[int(WordIndex[word])] += (B / Rq) * (1 + math.log(tf_)) * (IDF[word]+1)
         
             for j in range(nRq):
-                documentindex = DocIndex[str(resort[j])]
+                documentindex = DocIndex[str(resort[-j])]
                 for word,tf_ in TF[documentindex].items():
                     docVec[int(WordIndex[word])] -= (C / nRq) * (1 + math.log(tf_)) * (IDF[word]+1)
 
