@@ -172,7 +172,6 @@ if __name__ == "__main__":
         
         out = np.append(sortedDoc2,sortedDoc[2000:])
         print(len(out))
-        break
 
         for i in range(len(out)):
             if i == 0:
