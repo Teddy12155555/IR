@@ -1,5 +1,4 @@
-from sklearn.preprocessing import normalize
-from sklearn.metrics.pairwise import cosine_similarity
+
 from collections import Counter, namedtuple
 import re
 import collections
