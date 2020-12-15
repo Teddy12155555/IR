@@ -166,9 +166,9 @@ if __name__ == "__main__":
             newsim[progress] = cos
             progress += 1
 
-        zipped2 = zip(docNumList, sim)
-        zipped2 = sorted(zipped, key=lambda t: t[1], reverse=True)
-        sortedDoc2, score2 = zip(*zipped)
+        zipped2 = zip(resort, newsim)
+        zipped2 = sorted(zipped2, key=lambda t: t[1], reverse=True)
+        sortedDoc2, score2 = zip(*zipped2)
 
         for i in range(len(sortedDoc2)):
             if i == 0:
