@@ -49,14 +49,6 @@ def loadQueries(qlist):
     return queries
 
 
-def sim_all(self, querys):
-    scores = []
-    for index in range(30000):
-        score = self.sim(querys, index)
-        scores.append(score)
-
-    return scores
-
 @jit
 def similarity(vec1,vec2):
     dot = np.dot(vec1, vec2)
@@ -113,7 +105,13 @@ if __name__ == "__main__":
         WordIndex[key] = str(index)
         index += 1
 
-
+    # construct docid-index
+    DocIndex = {}
+    di = 0
+    for d in docNumList:
+        DocIndex[d] = str(di)
+        di += 1
+    
     for index in tqdm(range(len(queries))):
         nowQuery = queries[index]
         outputFile.write(str(queryNumList[index]))
@@ -136,25 +134,50 @@ if __name__ == "__main__":
             cos = similarity(docVec,queryVec)
             sim[progress] = cos
             progress += 1
-        """
-        
-        for docIndex in range(allDocsLen):
-            print(f"At Query {index+1} Progress : {docIndex}/{allDocsLen}\r",end="")
-            
-            docVec = np.zeros(allWordsLen)
-            for word in TF[str(docIndex)].keys():
-                
-                docVec[int(WordIndex[word])] =  (1 + math.log(TF[str(docIndex)][word])) * IDF[word]
-        """
-        
         zipped = zip(docNumList, sim)
         zipped = sorted(zipped, key=lambda t: t[1], reverse=True)
         sortedDoc, score = zip(*zipped)
-        for i in range(len(sortedDoc)):
+        # ===============
+        # === Rocchio ===
+        # ===============
+        B = 0.75
+        R_time = 3
+        Rq = 5
+        
+        resort = sortedDoc[:2000]
+        docVec = np.zeros(allWordsLen)
+        
+        for j in range(Rq):
+            documentindex = DocIndex[str(sortedDoc[j])]
+            for word,tf_ in TF[documentindex].items():
+                docVec[int(WordIndex[word])] += (B / Rq) * (1 + math.log(tf_)) * (IDF[word]+1)
+
+        newQuery = queryVec + docVec
+        print("Resort...")
+        newsim = sim = np.zeros(2000)
+        progress = 0
+        for resortDoc in tqdm(resort):
+            temp = DocIndex[str(resortDoc)]
+            docVec = np.zeros(allWordsLen)
+            for word,tf_ in TF[temp].items():
+                docVec[int(WordIndex[word])] =   (1 + math.log(tf_)) * (IDF[word]+1)
+
+            cos = similarity(docVec,newQuery)
+            newsim[progress] = cos
+            progress += 1
+
+        zipped2 = zip(docNumList, sim)
+        zipped2 = sorted(zipped, key=lambda t: t[1], reverse=True)
+        sortedDoc2, score2 = zip(*zipped)
+
+        for i in range(len(sortedDoc2)):
             if i == 0:
-                outputFile.write("," + str(sortedDoc[i]))
+                outputFile.write("," + str(sortedDoc2[i]))
             else:
-                outputFile.write(" " + str(sortedDoc[i]))
+                outputFile.write(" " + str(sortedDoc2[i]))
+        for i in range(len(sortedDoc[2000:])):
+            outputFile.write(" " + str(sortedDoc[i]))
+
         outputFile.write("\n")
         
     """
