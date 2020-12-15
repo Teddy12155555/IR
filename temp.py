@@ -141,12 +141,12 @@ if __name__ == "__main__":
         # === Rocchio ===
         # ===============
         B = 0.75
-        C = 0.1
-        R_time = 3
+        C = 0.15
+        R_time = 4
         Rq = 5
-        nRq = 3
+        nRq = 1
         
-        resort = sortedDoc[:2000]
+        resort = sortedDoc[:1500]
         for i in range(R_time):
             docVec = np.zeros(allWordsLen)
             for j in range(Rq):
@@ -161,7 +161,7 @@ if __name__ == "__main__":
 
             newQuery = queryVec + docVec
             print("Resort...")
-            newsim  = np.zeros(2000)
+            newsim  = np.zeros(1500)
             progress = 0
             for resortDoc in tqdm(resort):
                 temp = DocIndex[str(resortDoc)]
@@ -180,7 +180,7 @@ if __name__ == "__main__":
         
 
         # Write Output
-        out = np.append(resort,sortedDoc[2000:])
+        out = np.append(resort,sortedDoc[1500:])
         print(len(out))
 
         for i in range(len(out)):
