@@ -169,14 +169,16 @@ if __name__ == "__main__":
         zipped2 = zip(resort, newsim)
         zipped2 = sorted(zipped2, key=lambda t: t[1], reverse=True)
         sortedDoc2, score2 = zip(*zipped2)
+        
+        out = np.append(sortedDoc2,sortedDoc[2000:])
+        print(len(out))
+        break
 
-        for i in range(len(sortedDoc2)):
+        for i in range(len(out)):
             if i == 0:
-                outputFile.write("," + str(sortedDoc2[i]))
+                outputFile.write("," + str(out[i]))
             else:
-                outputFile.write(" " + str(sortedDoc2[i]))
-        for i in range(len(sortedDoc[2000:])):
-            outputFile.write(" " + str(sortedDoc[i]))
+                outputFile.write(" " + str(out[i]))
 
         outputFile.write("\n")
         
