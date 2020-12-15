@@ -142,9 +142,9 @@ if __name__ == "__main__":
         # ===============
         B = 0.75
         C = 0.15
-        R_time = 4
+        R_time = 3
         Rq = 5
-        nRq = 1
+        nRq = 3
         
         resort = sortedDoc[:1500]
         for i in range(R_time):
