@@ -139,7 +139,7 @@ if __name__ == "__main__":
             sim[progress] = cos
             progress += 1
 
-        sim += BM[str(queryNumList[index])]
+        sim *= BM[str(queryNumList[index])]
 
         zipped = zip(docNumList, sim)
         zipped = sorted(zipped, key=lambda t: t[1], reverse=True)
