@@ -114,7 +114,7 @@ if __name__ == "__main__":
     
     # Add bm25 Score
     with open("./SimScore.pickle", "rb") as f:
-    BM = pickle.load(f)
+        BM = pickle.load(f)
 
     for index in tqdm(range(len(queries))):
         nowQuery = queries[index]

@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 import math
 import time
-import jieba
 import utils
 from tqdm import tqdm
 from numba import jit
