@@ -148,8 +148,8 @@ if __name__ == "__main__":
         # === Rocchio ===
         # ===============
         B = 0.75
-        C = 0.1
-        R_time = 3
+        C = 0.8
+        R_time = 2
         Rq = 5
         nRq = 3
         
