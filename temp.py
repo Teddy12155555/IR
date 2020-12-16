@@ -112,6 +112,10 @@ if __name__ == "__main__":
         DocIndex[d] = str(di)
         di += 1
     
+    # Add bm25 Score
+    with open("./SimScore.pickle", "rb") as f:
+    BM = pickle.load(f)
+
     for index in tqdm(range(len(queries))):
         nowQuery = queries[index]
         outputFile.write(str(queryNumList[index]))
@@ -134,6 +138,9 @@ if __name__ == "__main__":
             cos = similarity(docVec,queryVec)
             sim[progress] = cos
             progress += 1
+
+        sim += BM[str(queryNumList[index])]
+
         zipped = zip(docNumList, sim)
         zipped = sorted(zipped, key=lambda t: t[1], reverse=True)
         sortedDoc, score = zip(*zipped)
